@@ -20,13 +20,13 @@ FOOD_CATEGORY = {
 
 def load_companies():
     companies = []
-    with open( RESOURCE_DIR + '/companies.json') as companies_file:
+    with open('%s/companies.json' % RESOURCE_DIR) as companies_file:
         companies = json.load(companies_file)
     return companies
 
 def load_people():
     companies = []
-    with open( RESOURCE_DIR + '/people.json') as people_file:
+    with open('%s/people.json' % RESOURCE_DIR) as people_file:
         people = json.load(people_file)
     return people
 
@@ -43,13 +43,16 @@ def people_food_vocabulary(people):
     return set(itertools.chain.from_iterable(food))
 
 def food_category(food):
+    """ Returns the food category of a food item or unknown if no category is associated """
     return FOOD_CATEGORY.get(food, 'unknown')
 
 def show_people_food_vocabulary():
+    """ Shows all the possible food names we can find in dataset """
     vocabulary = people_food_vocabulary(load_people())
-    for f in vocabulary: print(f + ' from ' + food_category(f))
+    for f in vocabulary: print('%s from %s' % (f, food_category(f)))
 
 def prepare_embedded_friend(friend):
+    """ Build person's friend embedded representation """
     return {
         'guid': friend['guid'],
         'index': friend['index'],
