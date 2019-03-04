@@ -23,3 +23,10 @@ To deliver your system, you need to send the link on GitHub. Your solution must 
 - Tests
 
 Feel free to reach to your point of contact for clarification if you have any questions.
+
+# Solution
+
+## Assumptions
+
+I found 100 companies with index from 0 to 99. However a person in poeple list contains only company_id with a range of 1 to 100. I assumed ```company_id = company.index + 1```.
+
