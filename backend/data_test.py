@@ -1,6 +1,28 @@
 import unittest
 import data
 
+SIMPLE_PERSON = {
+    "index": 0,
+    "guid": "5e71dc5d-61c0-4f3b-8b92-d77310c7fa43",
+    "has_died": True,
+    "age": 61,
+    "eyeColor": "blue",
+    "name": "Carmella Lambert",
+    "gender": "female",
+    "company_id": 58,
+    "friends": [],
+    "favouriteFood": [
+        "orange",
+        "apple",
+        "celery",
+        "strawberry"
+    ]
+}
+
+SIMPLE_COMPANY_MAP = {
+    58: { 'index': 58, 'name': 'CORP' }
+}
+
 class TestLoadData(unittest.TestCase):
     def test_load_companies(self):
         companies = data.load_companies()
@@ -24,3 +46,16 @@ class TestLoadData(unittest.TestCase):
         food = data.people_food_vocabulary(people)
         for f in food:
             self.assertIn(data.food_category(f), ['vegetable', 'fruit'], f + ' should have a category')
+
+    def test_prepare_person_document_split_food_in_categories(self):
+        document = data.prepare_person_document(SIMPLE_PERSON, SIMPLE_COMPANY_MAP, {})
+        self.assertDictEqual(document['favourite_food'], {
+            'vegetables': ['celery'],
+            'fruits': ['orange', 'apple', 'strawberry']
+        })
+
+    def test_prepare_person_document_rename_eye_color(self):
+        document = data.prepare_person_document(SIMPLE_PERSON, SIMPLE_COMPANY_MAP, {})
+        self.assertFalse('eyeColor' in document)
+        self.assertTrue('eye_color' in document)
+        self.assertEqual(document['eye_color'], SIMPLE_PERSON['eyeColor'])

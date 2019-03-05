@@ -1,3 +1,7 @@
+"""
+Utilities for data manipulation in order to insert data into the application from the provided JSON files.
+Data are arranged in a NoSQL fashion to be easily queryable and respond to REST  API endpoints
+"""
 import json
 import os
 import itertools
@@ -77,7 +81,7 @@ def prepare_person_document(person, companies_map, people_map):
     embedded['eye_color'] = person['eyeColor']
     embedded['company'] = companies_map[person['company_id']]
     embedded['favourite_food'] = {
-        'vegatables': list(filter(lambda f: food_category(f) == VEGETABLE, person['favouriteFood'])),
+        'vegetables': list(filter(lambda f: food_category(f) == VEGETABLE, person['favouriteFood'])),
         'fruits': list(filter(lambda f: food_category(f) == FRUIT, person['favouriteFood']))
     }
     # Join person friends list with people map to store full friends description
