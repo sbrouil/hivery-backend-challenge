@@ -28,11 +28,16 @@ db.getCollection('people').aggregate([
 db.getCollection('people').findOne({ 'guid': '5e71dc5d-61c0-4f3b-8b92-d77310c7fa43'}, {'favourite_food': 1, 'name': 1, 'age': 1})
 """
 from backend.db import get_db
+from backend.exceptions import NotFound
 
-def get_by_guid(guid):
+def get_by_guid(guid, projection=None):
     db = get_db()
-    return db.people.find_one({ 'guid': guid })
+    result = db.people.find_one({ 'guid': guid }, projection)
+    if result is None:
+        raise NotFound(guid)
+    else:
+        return result
 
 def get_person_favourite_food(guid):
     db = get_db()
-    return db.people.find_one({ 'guid': guid }, {'favourite_food': 1, 'name': 1, 'age': 1})
+    return get_by_guid(guid, {'favourite_food': 1, 'name': 1, 'age': 1})

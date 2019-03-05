@@ -22,6 +22,10 @@ class PeopleIntegrationTest(unittest.TestCase):
             # erase all existing data to ensure tests are independant
             self.db.people.drop()
         
+    """ 
+    /v1/people/:id
+    """
+
     def test_get_person(self):
         self.db.people.insert_one({
             '_id': TECH_ID,
@@ -36,6 +40,16 @@ class PeopleIntegrationTest(unittest.TestCase):
             'guid': GUID_TEST,
             'name': 'Test User' 
         })
+
+    def test_get_nonexistant_person_returns_404(self):
+        response = self.client.get('/v1/people/doesnotexist')
+        data = response.get_json()
+        self.assertEqual(response.status_code, 404)
+        self.assertEqual(data['message'], 'Resource doesnotexist not found')
+
+    """ 
+    /v1/people/:id/favourite-food
+    """
     
     def test_get_person_favourite_food(self):
         self.db.people.insert_one({
@@ -71,3 +85,9 @@ class PeopleIntegrationTest(unittest.TestCase):
                 'celery'
             ]
         })
+
+    def test_get_nonexistant_person_favourite_food_returns_404(self):
+        response = self.client.get('/v1/people/doesnotexist/favourite-food')
+        data = response.get_json()
+        self.assertEqual(response.status_code, 404)
+        self.assertEqual(data['message'], 'Resource doesnotexist not found')
