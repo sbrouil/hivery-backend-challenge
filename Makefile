@@ -1,5 +1,6 @@
 VENV = hiveryenv
 VENV_BIN = ./$(VENV)/bin
+APP_NAME=backend
 
 initenv:
 	@if [ -d ./$(VENV) ];	\
@@ -15,13 +16,13 @@ initenv:
 installdeps:
 	$(VENV_BIN)/pip install -r requirements.txt
 
-init: initenv installdeps
-
 load:
-	$(VENV_BIN)/python backend/load_data.py
+	FLASK_APP=$(APP_NAME) $(VENV_BIN)/python -m flask load_data
+
+install: initenv installdeps load
 
 test:
-	$(VENV_BIN)/python -m unittest discover -s backend -p *_test.py
+	$(VENV_BIN)/python -m unittest discover -s $(APP_NAME) -p *_test.py
 
 run:
-	FLASK_APP=backend $(VENV_BIN)/python -m flask run
+	FLASK_APP=$(APP_NAME) $(VENV_BIN)/python -m flask run
