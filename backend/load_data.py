@@ -7,6 +7,7 @@ def import_data():
     """ Import data to the database from JSON dataset file after erasing previous content
     The whole operation is performed in memory cause the dataset is small (no more than 1000 items)
     The mongo insertion method does not use batch insert for similar reason.
+    This is a one shot operation done during application installation step.
     """
     print('Load data:')
     people = data.load_people()

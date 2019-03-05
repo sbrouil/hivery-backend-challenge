@@ -1,8 +1,17 @@
 from flask import Flask, Blueprint
+import backend.config as config
 from backend.people import people_v1
 
-def create_app(config=None):
+def create_app(test_config=None):
     app = Flask(__name__)
+    app.config.from_mapping(
+        mongodb={},
+    )
+
+    if test_config is None:
+        app.config.update(config.get())
+    else:
+        app.config.update(test_config)
 
     @app.route('/')
     def index():
