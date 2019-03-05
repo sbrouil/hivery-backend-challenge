@@ -30,3 +30,5 @@ Feel free to reach to your point of contact for clarification if you have any qu
 
 I found 100 companies with index from 0 to 99. However a person in poeple list contains only company_id with a range of 1 to 100. I assumed ```company_id = company.index + 1```.
 
+MongoDB 3.2 is installed and running on localhost:27017 without any authentication mecanism.
+
