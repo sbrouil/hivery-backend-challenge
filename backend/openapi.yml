@@ -1,0 +1,157 @@
+openapi: 3.0.0
+info:
+  title: Paranuara Citizens API
+  description: Provide information about all the citizens in Paranuara (name, age, friends list, fruits and vegetables they like to eat...) and all founded companies on that planet.
+  version: 0.0.1
+servers:
+  - url: http://localhost:5000/v1
+    description: Localhost server, run it with "make run" command
+paths:
+  /people/{guid}:
+    get:
+      summary: Returns a person from its guid
+      parameters:
+        - name: guid
+          in: path
+          required: true
+          description: The ID of the person to return.
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: The person information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Person'
+        '404':
+          description: No person have been found with this id
+        '400':
+          description: Wrong uuid format
+  /people/{guid}/favourite-food:
+    get:
+      summary: Returns a person favourite food
+      parameters:
+        - name: guid
+          in: path
+          required: true
+          description: The ID of the person.
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: The person's favourite food
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PersonFavouriteFood'
+        '404':
+          description: No person have been found with this id
+        '400':
+          description: Wrong uuid format
+components:
+  schemas:
+    EyeColor:
+      type: string
+      enum:
+        - brown
+        - blue
+    Gender:
+      type: string
+      enum:
+        - male
+        - female
+    Company:
+      type: object
+      properties:
+        index:
+          type: integer
+        name:
+          type: string
+    FavouriteFood:
+      type: object
+      properties:
+        vegetables:
+          type: array
+          items:
+            type: string
+        fruits:
+          type: array
+          items:
+            type: string
+    PersonFavouriteFood:
+      allOf:
+        - $ref: '#/components/schemas/FavouriteFood'
+        - type: object
+          properties:
+            username:
+              type: string
+            age:
+              type: integer
+    Friend:
+      type: object
+      properties:
+        guid:
+          type: string
+          format: uuid
+        index:
+          type: integer
+        name:
+          type: string
+        gender:
+          $ref: '#/components/schemas/Gender'
+        has_died:
+          type: boolean
+        eye_color:
+          $ref: '#/components/schemas/EyeColor'
+    Person:
+      type: object
+      properties:
+        guid:
+          type: string
+          format: uuid
+        index:
+          type: integer
+        name:
+          type: string
+        gender:
+          $ref: '#/components/schemas/Gender'
+        has_died:
+          type: boolean
+        eye_color:
+          $ref: '#/components/schemas/EyeColor'
+        balance:
+          type: string
+        age:
+          type: integer
+        picture:
+          type: string
+        email:
+          type: string
+          format: email
+        phone:
+          type: string
+          format: phone-number
+        address:
+          type: string
+        about:
+          type: string
+        registered:
+          type: string
+          format: date-time
+        greeting:
+          type: string
+        company:
+          $ref: '#/components/schemas/Company'
+        tags:
+          type: array
+          items:
+            type: string
+        friends:
+          type: array
+          items:
+            $ref: '#/components/schemas/Friend'
+        favourite_food:
+          $ref: '#/components/schemas/FavouriteFood'
