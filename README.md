@@ -73,6 +73,11 @@ To initialize python virtual environment, install dependencies and load data to 
 make install
 ```
 
+To test the application (*Optional*):
+```bash
+make test
+```
+
 Run the application on locahost:5000 :
 ```bash
 make run
