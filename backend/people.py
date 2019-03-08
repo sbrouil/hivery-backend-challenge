@@ -23,3 +23,11 @@ def get_person_favourite_food(guid):
         'fruits': favourite_food['fruits'],
         'vegetables': favourite_food['vegetables']
     })
+
+@people_v1.route('/<guid_source>/mutual-friends/<guid_target>', methods=['GET'])
+def get_persons_mutual_friends(guid_source, guid_target):
+    return jsonify({
+        'source': {},
+        'target': {},
+        'mutual_friends': []
+    })
