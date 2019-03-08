@@ -1,7 +1,7 @@
 from pymongo import MongoClient
 from flask import current_app, g
 from flask.cli import with_appcontext
-from backend import data
+from backend.resources import data_utils
 import click
 
 def get_db():

@@ -1,5 +1,5 @@
 import unittest
-import data
+from backend.resources import data_utils
 
 SIMPLE_PERSON = {
     "index": 0,
@@ -25,11 +25,11 @@ SIMPLE_COMPANY_MAP = {
 
 class TestLoadData(unittest.TestCase):
     def test_load_companies(self):
-        companies = data.load_companies()
+        companies = data_utils.load_companies()
         self.assertEqual(len(companies), 100)
     
     def test_load_people(self):
-        people = data.load_people()
+        people = data_utils.load_people()
         self.assertEqual(len(people), 1000)
 
     def test_people_food_vocabulary(self):
@@ -38,24 +38,24 @@ class TestLoadData(unittest.TestCase):
         }, {
             'favouriteFood': ['pineapple', 'carots']
         }]
-        vocabulary = data.people_food_vocabulary(people)
+        vocabulary = data_utils.people_food_vocabulary(people)
         self.assertSetEqual({'apple', 'beans', 'pineapple', 'carots'}, vocabulary)
 
     def test_every_food_from_people_file_has_category(self):
-        people = data.load_people()
-        food = data.people_food_vocabulary(people)
+        people = data_utils.load_people()
+        food = data_utils.people_food_vocabulary(people)
         for f in food:
-            self.assertIn(data.food_category(f), ['vegetable', 'fruit'], f + ' should have a category')
+            self.assertIn(data_utils.food_category(f), ['vegetable', 'fruit'], f + ' should have a category')
 
     def test_prepare_person_document_split_food_in_categories(self):
-        document = data.prepare_person_document(SIMPLE_PERSON, SIMPLE_COMPANY_MAP, {})
+        document = data_utils.prepare_person_document(SIMPLE_PERSON, SIMPLE_COMPANY_MAP, {})
         self.assertDictEqual(document['favourite_food'], {
             'vegetables': ['celery'],
             'fruits': ['orange', 'apple', 'strawberry']
         })
 
     def test_prepare_person_document_rename_eye_color(self):
-        document = data.prepare_person_document(SIMPLE_PERSON, SIMPLE_COMPANY_MAP, {})
+        document = data_utils.prepare_person_document(SIMPLE_PERSON, SIMPLE_COMPANY_MAP, {})
         self.assertFalse('eyeColor' in document)
         self.assertTrue('eye_color' in document)
         self.assertEqual(document['eye_color'], SIMPLE_PERSON['eyeColor'])

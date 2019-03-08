@@ -7,7 +7,7 @@ import os
 import itertools
 import copy
 
-RESOURCE_DIR = os.path.dirname(os.path.realpath(__file__)) + '/resources'
+RESOURCE_DIR = os.path.dirname(os.path.realpath(__file__))
 
 FRUIT = 'fruit'
 VEGETABLE = 'vegetable'
