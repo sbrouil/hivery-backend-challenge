@@ -33,10 +33,10 @@ Feel free to reach to your point of contact for clarification if you have any qu
 
 I found 100 companies with index from 0 to 99. However a person in poeple list contains only company_id with a range of 1 to 100. I assumed ```company_id = company.index + 1```.
 
-The API have not authentication mecanism. Authentication is handled by a reverse proxy managed by the Paranuara government.
+The API itself doesn't have authentication mecanism. Authentication is handled by a reverse proxy managed by the Paranuara government.
 
 Environment :
-* MongoDB 3.2 is installed and running on localhost:27017 without any authentication mecanism.
+* MongoDB >3.2 is installed and running on localhost:27017 without any authentication mecanism.
 * Python 3 is installed
 * make command is installed
 
@@ -47,8 +47,8 @@ Environment :
     * the configuration from ```config.yml``` file is loaded and stored in Flask config to be available accross every module
     * using Flask config and application context make the application testing easy and prevent circular dependencies 
 * unittest library is used for unit and integration tests
-    * integration tests define specific database
-    * data from this database is removed before each test
+    * integration tests define specific database configuration
+    * data from this test database is removed before each test
     * each test handle its own dataset
 
 
@@ -68,7 +68,7 @@ doc:
 
 ### Setup
 At this stage the mongodb instance must be started.
-To initialize python virtual environment, install dependencies and load data to the database. Type from the repository root:
+To initialize python virtual environment, install dependencies and load data to the database, type from the repository root:
 ```bash
 make install
 ```
