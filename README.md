@@ -30,5 +30,55 @@ Feel free to reach to your point of contact for clarification if you have any qu
 
 I found 100 companies with index from 0 to 99. However a person in poeple list contains only company_id with a range of 1 to 100. I assumed ```company_id = company.index + 1```.
 
-MongoDB 3.2 is installed and running on localhost:27017 without any authentication mecanism.
+The API have not authentication mecanism. Authentication is handled by a reverse proxy managed by the Paranuara government.
 
+Environment :
+* MongoDB 3.2 is installed and running on localhost:27017 without any authentication mecanism.
+* Python 3 is installed
+* make command is installed
+
+## Technical choices and architecture
+
+* The people and companies data are store in MongoDB.
+* The REST API is built using lightweight Flask library.
+    * the configuration from ```config.yml``` file is loaded and stored in Flask config to be available accross every module
+    * using Flask config and application context make the application testing easy and prevent circular dependencies 
+* unittest library is used for unit and integration tests
+    * integration tests define specific database
+    * data from this database is removed before each test
+    * each test handle its own dataset
+
+
+## Configuration
+
+You can edit the application configuration before running the following steps according your environment in ```config.yml```:
+
+```yml
+mongodb:
+  host: localhost # mongodb instance host
+  port: 27017 # mongodb instance port
+  database: hivery # name of the database in your mongodb instance
+doc:
+  prefix_uri: /api/docs # context url of the generated API documentation
+  spec_uri: http://locahost:5000/api/spec.yml # URL of the API YML specification from the user's browser, if the API is deployed on another server, the server DNS must be used
+```
+
+## Setup
+
+From the repository root:
+
+Initialize python virtual environment, install dependencies and load data to the database. The mongodb instance must be started.
+```bash
+make install
+```
+
+Run the application on locahost:5000 :
+```bash
+make run
+```
+
+Resource      | URL              | Description
+--------|------------------------|------------------
+API URL | http://localhost:5000/ | Root for all the API endpoints
+API documentation | http://localhost:5000/api/docs | Interactive Swagger UI documentation for the Paranuara Citizens API
+OpenAPI 3.0 Specs | http://localhost:5000/api/spec.yml

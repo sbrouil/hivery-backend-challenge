@@ -4,4 +4,4 @@ mongodb:
   database: hivery
 doc:
   prefix_uri: /api/docs
-  spec_uri: http://127.0.0.1:5000/api/spec.yml
+  spec_uri: http://localhost:5000/api/spec.yml
