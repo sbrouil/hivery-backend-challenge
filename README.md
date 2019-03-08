@@ -67,10 +67,8 @@ doc:
 ```
 
 ### Setup
-
-From the repository root:
-
-Initialize python virtual environment, install dependencies and load data to the database. The mongodb instance must be started.
+At this stage the mongodb instance must be started.
+To initialize python virtual environment, install dependencies and load data to the database. Type from the repository root:
 ```bash
 make install
 ```
