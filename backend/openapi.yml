@@ -51,6 +51,47 @@ paths:
           description: No person have been found with this id
         '400':
           description: Wrong uuid format
+  /people/{guid_1}/mutual-friends/{guid_2}:
+    get:
+      summary: Returns the list of the common friends between the first and the second person
+      parameters:
+        - name: guid_1
+          in: path
+          required: true
+          description: The ID of the first person.
+          schema:
+            type: string
+            format: uuid
+        - name: guid_2
+          in: path
+          required: true
+          description: The ID of the second person.
+          schema:
+            type: string
+            format: uuid
+        - name: eye_color
+          in: query
+          required: false
+          description: filter friends list on friend's eye color
+          schema:
+            type: string
+        - name: has_died
+          in: query
+          required: false
+          description: allow to filter out died or alive friends
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: A summary of the person involved and the list of their common friends
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MutualFriends'
+        '404':
+          description: No person have been found with this id
+        '400':
+          description: Wrong parameters format
   /companies/{name}/employees:
     get:
       summary: Returns the list of employees from the given company
@@ -178,3 +219,25 @@ components:
             $ref: '#/components/schemas/Friend'
         favourite_food:
           $ref: '#/components/schemas/FavouriteFood'
+    PersonSummary:
+      type: object
+      properties:
+        age:
+          type: string
+        name:
+          type: string
+        phone:
+          type: string
+        address:
+          type: string
+    MutualFriends:
+      type: object
+      properties:
+        source:
+          $ref: '#/components/schemas/PersonSummary'
+        target:
+          $ref: '#/components/schemas/PersonSummary'
+        mutual_friends:
+          type: array
+          items:
+            $ref: '#/components/schemas/Friend'
