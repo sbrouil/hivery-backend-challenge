@@ -1,4 +1,7 @@
 # Paranuara Challenge
+
+Skip to solution : [Solution Documentation](#solution)
+
 Paranuara is a class-m planet. Those types of planets can support human life, for that reason the president of the Checktoporov decides to send some people to colonise this new planet and
 reduce the number of people in their own country. After 10 years, the new president wants to know how the new colony is growing, and wants some information about his citizens. Hence he hired you to build a rest API to provide the desired information.
 
@@ -24,9 +27,9 @@ To deliver your system, you need to send the link on GitHub. Your solution must 
 
 Feel free to reach to your point of contact for clarification if you have any questions.
 
-# Solution
+## Solution
 
-## Assumptions
+### Assumptions
 
 I found 100 companies with index from 0 to 99. However a person in poeple list contains only company_id with a range of 1 to 100. I assumed ```company_id = company.index + 1```.
 
@@ -37,7 +40,7 @@ Environment :
 * Python 3 is installed
 * make command is installed
 
-## Technical choices and architecture
+### Technical choices and architecture
 
 * The people and companies data are store in MongoDB.
 * The REST API is built using lightweight Flask library.
@@ -49,7 +52,7 @@ Environment :
     * each test handle its own dataset
 
 
-## Configuration
+### Configuration
 
 You can edit the application configuration before running the following steps according your environment in ```config.yml```:
 
@@ -63,7 +66,7 @@ doc:
   spec_uri: http://locahost:5000/api/spec.yml # URL of the API YML specification from the user's browser, if the API is deployed on another server, the server DNS must be used
 ```
 
-## Setup
+### Setup
 
 From the repository root:
 
