@@ -6,7 +6,6 @@ from backend.db import get_db
 GUID_TEST = 'a2e80b74-eaec-4b1a-a3e9-f71b850332a5'
 NON_NEXISTANT_UUID = 'd9cdbbda-c13c-488d-8d5b-c9a3aaf5d1f7'
 INVALID_UUID = 'hh5e71dc5d-61c0-4f3b-8b92-d77310c7fa43hhh'
-TECH_ID = '595eeb9b96d80a5bc7afb106'
 
 FRIEND_0 = {
     'guid' : '5e71dc5d-61c0-4f3b-8b92-d77310c7fa43',
@@ -81,7 +80,6 @@ class PeopleIntegrationTest(route_test.TestCase):
 
     def test_get_person(self):
         self.db.people.insert_one({
-            '_id': TECH_ID,
             'guid': GUID_TEST,
             'name': 'Test User' 
         })
@@ -89,7 +87,6 @@ class PeopleIntegrationTest(route_test.TestCase):
         response = self.client.get(self.PEOPLE_DETAIL_ENDPOINT % GUID_TEST)
         data = response.get_json()
         self.assertDictEqual(data, {
-            '_id': TECH_ID,
             'guid': GUID_TEST,
             'name': 'Test User' 
         })
@@ -112,7 +109,6 @@ class PeopleIntegrationTest(route_test.TestCase):
 
     def test_get_person_favourite_food(self):
         self.db.people.insert_one({
-            '_id' : TECH_ID,
             'guid' : GUID_TEST,
             'age' : 61,
             'name': 'Carmella Lambert',
