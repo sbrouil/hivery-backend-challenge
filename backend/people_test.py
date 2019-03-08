@@ -223,3 +223,19 @@ class PeopleIntegrationTest(RestTest):
         expected_friends = []
         actual_friends = list(map(lambda f: f['guid'], data['mutual_friends']))
         self.assertListEqual(actual_friends, expected_friends)
+
+    def test_get_mutual_friend_with_first_person_nonexistant_should_return_404(self):
+        self.db.people.insert_one(JENNY)
+
+        response = self.client.get(self.MUTUAL_FRIENDS_ENDPOINT % (NON_NEXISTANT_UUID, JENNY['guid']))
+        self.assertEqual(response.status_code, 404)
+        data = response.get_json()
+        self.assertEqual(data['message'], 'Person %s not found' % NON_NEXISTANT_UUID)
+
+    def test_get_mutual_friend_with_second_person_nonexistant_should_return_404(self):
+        self.db.people.insert_one(JULIA)
+
+        response = self.client.get(self.MUTUAL_FRIENDS_ENDPOINT % (JULIA['guid'], NON_NEXISTANT_UUID))
+        self.assertEqual(response.status_code, 404)
+        data = response.get_json()
+        self.assertEqual(data['message'], 'Person %s not found' % NON_NEXISTANT_UUID)
