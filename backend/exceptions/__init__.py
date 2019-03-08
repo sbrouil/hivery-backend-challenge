@@ -17,7 +17,6 @@ class BusinessException(Exception):
         rv['message'] = self.message
         return rv
 
-
 class NotFound(BusinessException):
-    def __init__(self, resource_id):
-        super(NotFound, self).__init__("Resource %s not found" % (resource_id), 404)
+    def __init__(self, resource_name, resource_id):
+        super(NotFound, self).__init__("%s %s not found" % (resource_name, resource_id), 404)

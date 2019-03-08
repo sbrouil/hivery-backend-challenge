@@ -51,6 +51,29 @@ paths:
           description: No person have been found with this id
         '400':
           description: Wrong uuid format
+  /companies/{name}/employees:
+    get:
+      summary: Returns the list of employees from the given company
+      parameters:
+        - name: name
+          in: path
+          required: true
+          description: The company name.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The list of employees
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Person'
+        '404':
+          description: The company has not been found
+        '400':
+          description: Wrong format for the company name
 components:
   schemas:
     EyeColor:

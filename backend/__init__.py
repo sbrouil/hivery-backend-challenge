@@ -1,6 +1,7 @@
 from flask import Flask, Blueprint, jsonify, request
-import backend.config as config
+from backend.config import get as get_config
 from backend.people import people_v1
+from backend.companies import companies_v1
 from backend import db
 from backend.exceptions import BusinessException
 
@@ -30,7 +31,7 @@ def create_app(test_config=None):
     )
 
     if test_config is None:
-        app.config.update(config.get())
+        app.config.update(get_config())
     else:
         app.config.update(test_config)
 
@@ -48,6 +49,7 @@ def create_app(test_config=None):
     db.init_app(app)
 
     app.register_blueprint(people_v1, url_prefix='/v1/people')
+    app.register_blueprint(companies_v1, url_prefix='/v1/companies')
     
     app.after_request(add_cors_headers)
 

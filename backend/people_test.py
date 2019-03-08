@@ -1,5 +1,6 @@
 import unittest
 from backend import create_app
+from backend.tests import RestTest
 from backend.db import get_db
 
 GUID_TEST = 'a2e80b74-eaec-4b1a-a3e9-f71b850332a5'
@@ -7,26 +8,9 @@ NON_NEXISTANT_UUID = 'd9cdbbda-c13c-488d-8d5b-c9a3aaf5d1f7'
 INVALID_UUID = 'hh5e71dc5d-61c0-4f3b-8b92-d77310c7fa43hhh'
 TECH_ID = '595eeb9b96d80a5bc7afb106'
 
-class PeopleIntegrationTest(unittest.TestCase):
-    """ Test the /people API endpoint
-    """
-    def setUp(self):
-        self.app = create_app({
-            'mongodb': {
-                'host': 'localhost',
-                'port': 27017,
-                'database': 'hivery_integration_test'
-            }
-        })
-        self.client = self.app.test_client()    
-        with self.app.app_context():
-            self.db = get_db()
-            # erase all existing data to ensure tests are independant
-            self.db.people.drop()
-        
-    """ 
-    /v1/people/:id
-    """
+class PeopleIntegrationTest(RestTest):
+
+    # GET /v1/people/:id
 
     def test_get_person(self):
         self.db.people.insert_one({
@@ -53,11 +37,9 @@ class PeopleIntegrationTest(unittest.TestCase):
         response = self.client.get('/v1/people/%s' % NON_NEXISTANT_UUID)
         data = response.get_json()
         self.assertEqual(response.status_code, 404)
-        self.assertEqual(data['message'], 'Resource %s not found' % NON_NEXISTANT_UUID)
+        self.assertEqual(data['message'], 'Person %s not found' % NON_NEXISTANT_UUID)
 
-    """ 
-    /v1/people/:id/favourite-food
-    """
+    # GET /v1/people/:id/favourite-food
     
     def test_get_person_favourite_food(self):
         self.db.people.insert_one({
@@ -98,4 +80,4 @@ class PeopleIntegrationTest(unittest.TestCase):
         response = self.client.get('/v1/people/%s/favourite-food' % NON_NEXISTANT_UUID)
         data = response.get_json()
         self.assertEqual(response.status_code, 404)
-        self.assertEqual(data['message'], 'Resource %s not found' % NON_NEXISTANT_UUID)
+        self.assertEqual(data['message'], 'Person %s not found' % NON_NEXISTANT_UUID)

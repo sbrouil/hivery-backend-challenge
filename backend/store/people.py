@@ -30,14 +30,28 @@ db.getCollection('people').findOne({ 'guid': '5e71dc5d-61c0-4f3b-8b92-d77310c7fa
 from backend.db import get_db
 from backend.exceptions import NotFound
 
+# Hide some nested fields by default
+DEFAULT_PERSON_PROJECTION = {
+    '_id': False,
+    'friends': False,
+    'favourite_food': False,
+    'tags': False
+}
+
 def get_by_guid(guid, projection=None):
     db = get_db()
     result = db.people.find_one({ 'guid': guid }, projection)
     if result is None:
-        raise NotFound(guid)
+        raise NotFound('Person', guid)
     else:
         return result
 
 def get_person_favourite_food(guid):
     db = get_db()
-    return get_by_guid(guid, {'favourite_food': 1, 'name': 1, 'age': 1})
+    return get_by_guid(guid, {'_id': False, 'favourite_food': True, 'name': True, 'age': True})
+
+def get_people_by_company_name(name):
+    db = get_db()
+    # We are pulling the whole result into memory cause we generally have a reasonable number of employees
+    # per company. If the volume becomes to large, plan to handle pagination in the service
+    return list(db.people.find({ 'company.name': name }, DEFAULT_PERSON_PROJECTION))
