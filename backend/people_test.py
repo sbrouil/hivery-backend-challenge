@@ -194,14 +194,15 @@ class PeopleIntegrationTest(RestTest):
         self.assertEqual(response.status_code, 200)
         
         data = response.get_json()
-        expected_friends = [FRIEND_0['guid'], FRIEND_1['guid'], FRIEND_2['guid']]
-        actual_friends = list(map(lambda f: f['guid'], data['mutual_friends']))
-        self.assertListEqual(actual_friends, expected_friends)
+        expected_friends = set([FRIEND_0['guid'], FRIEND_1['guid'], FRIEND_2['guid']])
+        actual_friends = set(map(lambda f: f['guid'], data['mutual_friends']))
+        self.assertSetEqual(actual_friends, expected_friends)
 
     def test_get_mutual_friend_should_match_filters(self):
         self.db.people.insert_one(JULIA)
         self.db.people.insert_one(JENNY)
 
+        # only FRIEND_1, FRIEND_3, FRIEND_4 have these criteria, but only FRIEND_1 is is common
         response = self.client.get((self.MUTUAL_FRIENDS_ENDPOINT + '?eye_color=brown&has_died=false') % (JULIA['guid'], JENNY['guid']))
         self.assertEqual(response.status_code, 200)
 
@@ -210,3 +211,15 @@ class PeopleIntegrationTest(RestTest):
         actual_friends = list(map(lambda f: f['guid'], data['mutual_friends']))
         self.assertListEqual(actual_friends, expected_friends)
     
+    def test_get_mutual_friend_should_return_empty_friend_list(self):
+        self.db.people.insert_one(JULIA)
+        self.db.people.insert_one(JENNY)
+
+        # no common friend is died with brown eye
+        response = self.client.get((self.MUTUAL_FRIENDS_ENDPOINT + '?eye_color=brown&has_died=true') % (JULIA['guid'], JENNY['guid']))
+        self.assertEqual(response.status_code, 200)
+
+        data = response.get_json()
+        expected_friends = []
+        actual_friends = list(map(lambda f: f['guid'], data['mutual_friends']))
+        self.assertListEqual(actual_friends, expected_friends)

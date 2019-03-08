@@ -23,26 +23,36 @@ FOOD_CATEGORY = {
 }
 
 def load_companies():
+    """ Load companies object from companies.json file
+    """
     companies = []
     with open('%s/companies.json' % RESOURCE_DIR) as companies_file:
         companies = json.load(companies_file)
     return companies
 
 def load_people():
+    """ Load people list from people.json file
+    """
     companies = []
     with open('%s/people.json' % RESOURCE_DIR) as people_file:
         people = json.load(people_file)
     return people
 
 def companies_map():
+    """ Returns the companies in a map using company index as key
+    """
     companies = load_companies()
     return {(c['index'] + 1):{'index': c['index'], 'name': c['company']} for c in companies}
 
 def people_map():
+    """ Returns the people in a map using their index as key
+    """
     people = load_people()
     return {p['index']:p for p in people}
 
 def people_food_vocabulary(people):
+    """ Get all distinct values of foods present in people list
+    """
     food = list(map(lambda p: p['favouriteFood'], people))
     return set(itertools.chain.from_iterable(food))
 
@@ -51,12 +61,14 @@ def food_category(food):
     return FOOD_CATEGORY.get(food, 'unknown')
 
 def show_people_food_vocabulary():
-    """ Shows all the possible food names we can find in dataset """
+    """ Shows all the possible food names we can find in dataset
+    """
     vocabulary = people_food_vocabulary(load_people())
     for f in vocabulary: print('%s from %s' % (f, food_category(f)))
 
 def prepare_embedded_friend(friend):
-    """ Build person's friend embedded representation """
+    """ Build person's friend embedded representation
+    """
     return {
         'guid': friend['guid'],
         'index': friend['index'],

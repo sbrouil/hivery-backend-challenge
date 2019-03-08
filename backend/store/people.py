@@ -46,6 +46,36 @@ def get_by_guid(guid, projection=None):
     else:
         return result
 
+def get_by_guid_with_friends(guid, friend_eye_color = None, friend_has_died = None):
+    cond = []
+    if friend_eye_color is not None:
+        cond.append({ '$eq': ["$$this.eye_color", friend_eye_color]})
+    if friend_has_died is not None:
+        cond.append({ '$eq': ["$$this.has_died", friend_has_died ]})
+
+    db = get_db()
+    people = list(db.people.aggregate([
+        {'$match': { 'guid': guid}},
+        {
+            '$project': {
+                '_id': False,
+                'name': True,
+                'age': True,
+                'address': True,
+                'phone': True,
+                'friends': {
+                    '$filter': {
+                        'input': '$friends',
+                        'cond': { '$and': cond }
+                    }
+                }
+            }
+        }
+    ]))
+    if len(people) == 0:
+        raise NotFound('Person', guid)
+    return people[0]
+
 def get_person_favourite_food(guid):
     db = get_db()
     return get_by_guid(guid, {'_id': False, 'favourite_food': True, 'name': True, 'age': True})
