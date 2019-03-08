@@ -1,6 +1,6 @@
 import unittest
 from backend import create_app
-from backend.tests import RestTest
+from backend.routes import route_test
 from backend.db import get_db
 
 GUID_TEST = 'a2e80b74-eaec-4b1a-a3e9-f71b850332a5'
@@ -73,7 +73,7 @@ JENNY = {
     'friends': [FRIEND_0, FRIEND_1, FRIEND_2, FRIEND_4]
 }
 
-class PeopleIntegrationTest(RestTest):
+class PeopleIntegrationTest(route_test.TestCase):
 
     # GET /v1/people/:id
 

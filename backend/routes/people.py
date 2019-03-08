@@ -1,6 +1,6 @@
 import copy
 from flask import Blueprint, jsonify, request
-from backend.validation import validate_uuid, bool_param_type
+from backend.routes.validation import validate_uuid, bool_param_type
 import backend.store.people as people_store
 
 people_v1 = Blueprint('people_v1', __name__)

@@ -2,10 +2,10 @@ import unittest
 import uuid
 
 from backend import create_app
-from backend.tests import RestTest
+from backend.routes import route_test
 from backend.db import get_db
 
-class CompaniesIntegrationTest(RestTest):
+class CompaniesIntegrationTest(route_test.TestCase):
     def insert_company(self, name):
         company = {
             'index': 0,

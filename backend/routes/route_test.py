@@ -2,7 +2,7 @@ import unittest
 from backend import create_app
 from backend.db import get_db
 
-class RestTest(unittest.TestCase):
+class TestCase(unittest.TestCase):
     def setUp(self):
         self.app = create_app({
             'mongodb': {

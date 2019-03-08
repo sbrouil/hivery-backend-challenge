@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify
 from backend.store import people as people_store, companies as companies_store
-from backend.validation import validate_company_name
+from backend.routes.validation import validate_company_name
 
 companies_v1 = Blueprint('companies_v1', __name__)
 
