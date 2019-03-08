@@ -2,3 +2,6 @@ mongodb:
   host: localhost
   port: 27017
   database: hivery
+doc:
+  prefix_uri: /api/docs
+  spec_uri: http://127.0.0.1:5000/api/spec.yml

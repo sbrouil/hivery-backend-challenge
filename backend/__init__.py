@@ -3,6 +3,7 @@ from backend.config import get as get_config
 from backend.people import people_v1
 from backend.companies import companies_v1
 from backend import db
+from backend import doc
 from backend.exceptions import BusinessException
 
 def add_cors_headers(response):
@@ -47,6 +48,7 @@ def create_app(test_config=None):
 
     # Register application commands
     db.init_app(app)
+    doc.init_app(app)
 
     app.register_blueprint(people_v1, url_prefix='/v1/people')
     app.register_blueprint(companies_v1, url_prefix='/v1/companies')

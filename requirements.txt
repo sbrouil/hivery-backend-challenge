@@ -2,3 +2,4 @@ pymongo
 pyyaml
 flask
 click
+flask-swagger-ui
