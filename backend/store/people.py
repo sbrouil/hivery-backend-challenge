@@ -38,7 +38,7 @@ DEFAULT_PERSON_PROJECTION = {
     'tags': False
 }
 
-def get_by_guid(guid, projection=None):
+def get_by_guid(guid, projection={'_id': False}):
     db = get_db()
     result = db.people.find_one({ 'guid': guid }, projection)
     if result is None:
