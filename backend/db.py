@@ -27,10 +27,10 @@ def load_data_command():
     This is a one shot operation done during application installation step.
     """
     print('Load data:')
-    people = data.load_people()
-    companies = data.load_companies()
-    companies_map = data.companies_map()
-    people_map = data.people_map()
+    people = data_utils.load_people()
+    companies = data_utils.load_companies()
+    companies_map = data_utils.companies_map()
+    people_map = data_utils.people_map()
 
     db = get_db()
     db.companies.drop()
@@ -50,7 +50,7 @@ def load_data_command():
     # inserting people
     inserted_count = 0
     for p in people:
-        doc = data.prepare_person_document(p, companies_map, people_map)
+        doc = data_utils.prepare_person_document(p, companies_map, people_map)
         print('Inserting person %s' % p['name'])
         db.people.insert_one(doc)
         inserted_count += 1
