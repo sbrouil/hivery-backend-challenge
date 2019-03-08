@@ -1,7 +1,7 @@
 from flask import Flask, Blueprint, jsonify, request
 from backend.config import get as get_config
-from backend.people import people_v1
-from backend.companies import companies_v1
+from backend.routes.people import people_v1
+from backend.routes.companies import companies_v1
 from backend import db
 from backend import doc
 from backend.exceptions import BusinessException

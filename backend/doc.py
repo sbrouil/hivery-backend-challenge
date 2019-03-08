@@ -17,11 +17,12 @@ def init_app(app):
         return app.send_static_file('openapi.yml')
 
     with app.app_context():
-        prefix_uri = current_app.config['doc']['prefix_uri']
-        spec_uri = current_app.config['doc']['spec_uri']
+        if 'doc' in current_app.config:
+            prefix_uri = current_app.config['doc']['prefix_uri']
+            spec_uri = current_app.config['doc']['spec_uri']
 
-        swaggerui_blueprint = get_swaggerui_blueprint(
-            prefix_uri,
-            spec_uri
-        )
-        app.register_blueprint(swaggerui_blueprint, url_prefix=prefix_uri)
+            swaggerui_blueprint = get_swaggerui_blueprint(
+                prefix_uri,
+                spec_uri
+            )
+            app.register_blueprint(swaggerui_blueprint, url_prefix=prefix_uri)
