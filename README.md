@@ -88,3 +88,17 @@ Resource      | URL              | Description
 API URL | http://localhost:5000/ | Root for all the API endpoints
 API documentation | http://localhost:5000/api/docs | Interactive Swagger UI documentation for the Paranuara Citizens API
 OpenAPI 3.0 Specs | http://localhost:5000/api/spec.yml
+
+### New features test curl commands
+- Given a company, the API needs to return all their employees. Provide the appropriate solution if the company does not have any employees.
+```bash
+curl -X GET "http://localhost:5000/v1/companies/PERMADYNE/employees" -H "accept: application/json"
+```
+- Given 2 people, provide their information (Name, Age, Address, phone) and the list of their friends in common which have brown eyes and are still alive.
+```bash
+curl -X GET "http://localhost:5000/v1/people/5e71dc5d-61c0-4f3b-8b92-d77310c7fa43/mutual-friends/b057bb65-e335-450e-b6d2-d4cc859ff6cc?eye_color=brown&has_died=false" -H "accept: application/json"
+```
+- Given 1 people, provide a list of fruits and vegetables they like. This endpoint must respect this interface for the output: `{"username": "Ahi", "age": "30", "fruits": ["banana", "apple"], "vegetables": ["beetroot", "lettuce"]}`
+```bash
+curl -X GET "http://localhost:5000/v1/people/49c04b8d-0a96-4319-b310-d6aa8269adca/favourite-food" -H "accept: application/json"
+```
